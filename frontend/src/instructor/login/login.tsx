@@ -65,7 +65,7 @@ export function InstructorLogin() {
                 <p className="text-center">
                   No Account{" "}
                   <span
-                    style={{ color: "blue" ,cursor:"pointer"}}
+                    style={{ color: "blue", cursor: "pointer" }}
                     id="register"
                     onClick={() => {
                       setShowLoginForm(false);
@@ -86,7 +86,6 @@ export function InstructorLogin() {
                         {...userLoginForm.register("email", { required: true })}
                         type="email"
                         className="form-control"
-                       
                         id="email"
                       />
                     </div>
@@ -100,7 +99,6 @@ export function InstructorLogin() {
                         })}
                         type="password"
                         className="form-control"
-                  
                         id="password"
                       />
                     </div>
@@ -109,8 +107,11 @@ export function InstructorLogin() {
                         className="btn btn-primary mt-5"
                         type="submit"
                         onClick={userLoginForm.handleSubmit(async (data) => {
-                          const res = await api.post("instructors/login", data);
-                          if (res.status === 200) {
+                          try {
+                            const res = await api.post(
+                              "instructors/login",
+                              data
+                            );
                             toast.success("Logged in successfully");
                             sessionStorage.setItem(
                               "instructor",
@@ -118,8 +119,8 @@ export function InstructorLogin() {
                             );
                             userLoginForm.reset();
                             navigate("/instructor/courses");
-                          } else {
-                            toast.error(res.data.error);
+                          } catch (error:any) {
+                            toast.error(error.response.data.message);
                           }
                         })}
                       >
@@ -136,7 +137,7 @@ export function InstructorLogin() {
                 <p className="text-center">
                   Back to{" "}
                   <span
-                    style={{ color: "blue" ,cursor:"pointer"}}
+                    style={{ color: "blue", cursor: "pointer" }}
                     id="register"
                     onClick={() => {
                       setShowLoginForm(true);
@@ -159,7 +160,6 @@ export function InstructorLogin() {
                         })}
                         type="text"
                         className="form-control"
-                   
                         id="name"
                       />
                     </div>
@@ -173,7 +173,6 @@ export function InstructorLogin() {
                         })}
                         type="email"
                         className="form-control"
-                      
                         id="email"
                       />
                     </div>
@@ -187,7 +186,6 @@ export function InstructorLogin() {
                         })}
                         type="password"
                         className="form-control"
-                     
                         id="password"
                       />
                     </div>

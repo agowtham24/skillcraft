@@ -41,11 +41,7 @@ export function Header() {
                       Courses
                     </Link>
                   </li>
-                  <li className="nav-item">
-                    <Link to="/instructor/payments" className="nav-link">
-                      Payments
-                    </Link>
-                  </li>
+
                   <li className="nav-item dropdown">
                     <a
                       className="nav-link dropdown-toggle"
@@ -63,7 +59,7 @@ export function Header() {
                           onClick={() => {
                             sessionStorage.removeItem("instructor");
                             navigate("/");
-                             window.location.reload();
+                            window.location.reload();
                           }}
                         >
                           SignOut

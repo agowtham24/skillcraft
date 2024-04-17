@@ -1,7 +1,8 @@
 import axios from "axios";
 export const config = {
   api_url: "http://localhost:3000/",
-  // taskFiles: "http://localhost:5000/taskfiles/",
+  videos: "http://localhost:3000/videos/",
+  pdfs: "http://localhost:3000/pdfs/",
 };
 export const api = axios.create({
   baseURL: config.api_url,

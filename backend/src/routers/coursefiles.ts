@@ -38,6 +38,7 @@ courseFileRouter.post(
       let body = {
         ...req.body,
       };
+      
       const checkCourse = await courseSchema.findOne({
         where: { id: body.courseId },
       });
@@ -51,10 +52,11 @@ courseFileRouter.post(
       if (files.pdf) {
         body.pdf = files.pdf[0].filename;
       }
-
+      console.log(body,"body");
       await courseFileSchema.create(body);
       res.status(200).json({ message: "Course file created" });
     } catch (error) {
+      console.log(error,"error");
       res.status(500).json({ error: error });
     }
   }

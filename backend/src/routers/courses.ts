@@ -3,6 +3,7 @@ import { courseSchema } from "../schemas/courses";
 import { instructorSchema } from "../schemas/instructors";
 import { courseFileSchema } from "../schemas/coursefiles";
 import seq from "../db";
+import { Op } from "sequelize";
 export const courseRouter = Router();
 
 courseRouter.post("/", async (req: Request, res: Response) => {
@@ -27,10 +28,6 @@ courseRouter.get("/", async (req: Request, res: Response) => {
         {
           model: instructorSchema,
           as: "instructor",
-        },
-        {
-          model: courseFileSchema,
-          as: "courseFiles",
         },
       ],
     });
@@ -109,7 +106,33 @@ courseRouter.delete("/:id", async (req: Request, res: Response) => {
     await courseSchema.destroy({
       where: { id: req.params.id },
     });
+    await courseFileSchema.destroy({
+      where: { courseId: req.params.id },
+    });
+
     res.status(200).json({ message: "Course deleted" });
+  } catch (error) {
+    res.status(500).json({ error: error });
+  }
+});
+
+// search cource by name
+courseRouter.get("/search/:name", async (req: Request, res: Response) => {
+  try {
+    const courses = await courseSchema.findAll({
+      where: {
+        name: {
+          [Op.like]: `%${req.params.name}%`,
+        },
+      },
+      include: [
+        {
+          model: instructorSchema,
+          as: "instructor",
+        },
+      ],
+    });
+    res.status(200).json(courses);
   } catch (error) {
     res.status(500).json({ error: error });
   }

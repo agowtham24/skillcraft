@@ -1,11 +1,26 @@
 import "./header.css";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-
+import { api } from "../../utils/apiconfig";
+import { formatDate } from "../../sharedFunctions";
 export function Header() {
   const navigate = useNavigate();
   const [isLogin, setIsLogin] = useState(false);
+  const [notifications, setNotifications] = useState([] as any[]);
+  const fetchNotifications = async () => {
+    try {
+      const user = JSON.parse(sessionStorage.getItem("user") as string);
+      const response = await api.get(`notifications/${user.id}`);
+      console.log(response.data, "notifications");
+      setNotifications(response.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
+  useEffect(() => {
+    fetchNotifications();
+  }, []);
   useEffect(() => {
     if (sessionStorage.getItem("user")) {
       setIsLogin(true);
@@ -54,19 +69,66 @@ export function Header() {
                       data-bs-toggle="dropdown"
                       aria-expanded="false"
                     >
-                      <i className="fa-solid fa-bell" style={{
-                        fontSize:"20px"
-                      }}></i>
-                      <span className="position-absolute  translate-middle badge rounded-pill bg-danger">4</span>
+                      <i
+                        className="fa-solid fa-bell"
+                        style={{
+                          fontSize: "20px",
+                        }}
+                      ></i>
+                      {notifications.length > 0 && (
+                        <span className="position-absolute  translate-middle badge rounded-pill bg-danger">
+                          {notifications.length}
+                        </span>
+                      )}
                     </a>
-                    <ul className="dropdown-menu">
-                      <li>{/* for notifications */}</li>
+                    <ul
+                      className="dropdown-menu"
+                      style={{
+                        width: "400px",
+                        maxHeight: "500px",
+                        overflowY: "auto",
+                        padding: "13px",
+                      }}
+                    >
+                      {notifications.map((notification: any) => (
+                        <>
+                          <li
+                            style={{
+                              cursor: "pointer",
+                            }}
+                            key={notification.id}
+                            onClick={async () => {
+                              try {
+                                await api.patch(
+                                  `notifications/${notification.id}`,
+                                  { status: 1 }
+                                );
+                                fetchNotifications();
+                              } catch (error) {
+                                console.log(error);
+                              }
+                            }}
+                          >
+                            {notification.message}
+                            <span
+                              style={{
+                                float: "right",
+                              }}
+                            >
+                              {formatDate(notification.createdAt)}
+                            </span>
+                          </li>
+                          <hr />
+                        </>
+                      ))}
                     </ul>
                   </li>
-                  <li className="nav-item dropdown" style={{
-                    marginLeft:"15px"
-                  
-                  }}>
+                  <li
+                    className="nav-item dropdown"
+                    style={{
+                      marginLeft: "15px",
+                    }}
+                  >
                     <a
                       className="nav-link dropdown-toggle"
                       href="#"

@@ -1,5 +1,9 @@
 import "./payments.css";
 import { Header } from "../header/header";
+import { useEffect, useState } from "react";
+import { api } from "../../utils/apiconfig";
+import { Toaster, toast } from "react-hot-toast";
+
 export function InstructorPayments() {
   return (
     <>
@@ -8,11 +12,9 @@ export function InstructorPayments() {
         <div
           className="h5 text-center"
           style={{
-            marginTop: "10%",
+            marginTop: "6%",
           }}
-        >
-          Payments
-        </div>
+        ></div>
       </div>
     </>
   );

@@ -24,4 +24,8 @@ export const courseFileSchema = seq.define("course_files", {
     allowNull: true,
     defaultValue: null,
   },
+  name:{
+    type: DataTypes.STRING,
+    allowNull: false
+  }
 });
