@@ -54,6 +54,11 @@ export function Header() {
                   Home
                 </Link>
               </li>
+              <li className="nav-item">
+                <Link to="/users/about" className="nav-link">
+                  About
+                </Link>
+              </li>
               {isLogin ? (
                 <>
                   <li className="nav-item">

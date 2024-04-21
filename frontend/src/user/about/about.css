@@ -1,0 +1,22 @@
+.imgcol {
+    display: flex;
+    justify-content: center;
+    position: relative;
+  }
+  .imgaboutus {
+    border-radius: 50%;
+    object-fit: cover;
+    height: 300px;
+    width: 315px;
+    border: 9px solid white;
+  }
+  .smallpic {
+    border-radius: 50%;
+    object-fit: cover;
+    height: 160px;
+    width: 160px;
+    position: absolute;
+    left: 90px;
+    top: 40px;
+    border: 6px solid white;
+  }
